@@ -17,9 +17,7 @@ app.use(rateLimit({
     windowMs: 15 * 60 * 1000, // 15 mins
     max: 50, // 50 req from an IP in 15 min
 }));
-// app.use(cors({
-//     origin: ["http://localhost:5173"]
-// }));
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
