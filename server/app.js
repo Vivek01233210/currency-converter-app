@@ -18,7 +18,22 @@ app.use(rateLimit({
     max: 50, // 50 req from an IP in 15 min
 }));
 
-app.use(cors());
+const corsOptions = {
+    origin: (origin, callback) => {
+        const allowedOrigins = [
+            "http://localhost:5173",
+            "http://currency-converter.projectbyvivek.online",
+            "https://currency-converter.projectbyvivek.online",
+            "http://www.currency-converter.projectbyvivek.online",
+            "https://www.currency-converter.projectbyvivek.online",
+        ];
+        const isAllowed = allowedOrigins.includes(origin);
+        callback(null, isAllowed ? origin : false);
+    },
+    methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+    credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 
 // REQ HANDLERS
@@ -40,7 +55,7 @@ app.post("/api/convert", async (req, res) => {
 
         // constructing the api url
         const url = `${API_URL}${apiKey}/pair/${from}/${to}/${amount}`
-        console.log(url)
+        // console.log(url)
         const response = await axios.get(url);
 
         if (!response.data || response.data.result !== "success") {
