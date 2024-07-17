@@ -13,12 +13,6 @@ const API_URL = "https://v6.exchangerate-api.com/v6/";
 const apiKey = process.env.API_KEY;
 
 // MIDDLEWARES
-app.use(express.json());
-app.use(rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 mins
-    max: 50, // 50 req from an IP in 15 min
-}));
-
 const corsOptions = {
     origin: (origin, callback) => {
         const allowedOrigins = [
@@ -35,6 +29,12 @@ const corsOptions = {
     credentials: true,
 };
 app.use(cors(corsOptions));
+app.use(express.json());
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 mins
+    max: 50, // 50 req from an IP in 15 min
+}));
+
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 
