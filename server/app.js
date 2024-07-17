@@ -4,6 +4,7 @@ import axios from "axios";
 import express from "express";
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 
 const PORT = process.env.PORT || 5400;
 const app = express();
@@ -34,6 +35,7 @@ const corsOptions = {
     credentials: true,
 };
 app.use(cors(corsOptions));
+app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 
 // REQ HANDLERS
